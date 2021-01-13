@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, FlatList, Alert, TouchableWithoutFeedback, Keyb
 import Header from './components/header';
 import TodoItem from './components/todoitem';
 import AddTodo from './components/addtodo';
+import Sandbox from './components/sandbox';
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -58,15 +59,7 @@ export default function App() {
       <View style={styles.container}>
         <Header drawer={drawer} />
         <View style={styles.content}>
-          <AddTodo submitHandler={submitHandler} />
-          <View style={styles.list}>
-            <FlatList
-              data={todos}
-              renderItem={({ item }) => (
-                <TodoItem item={ item } pressHandler={pressHandler}/>
-              )}
-            />
-          </View>
+          <Text>Hello</Text>
         </View>
       </View>
       </DrawerLayoutAndroid>
