@@ -24,6 +24,7 @@ export default function AddTodo({ submitHandler }) {
 
 const styles = StyleSheet.create({
     input: {
+        color: '#fff',
         marginBottom: 10,
         paddingHorizontal: 8,
         paddingVertical: 6,
