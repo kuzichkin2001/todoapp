@@ -4,13 +4,12 @@ import { StyleSheet, Text, View, FlatList, Alert, TouchableWithoutFeedback, Keyb
 import Header from './components/header';
 import TodoItem from './components/todoitem';
 import AddTodo from './components/addtodo';
-import Sandbox from './components/sandbox';
 
 export default function App() {
   const [todos, setTodos] = useState([
-    { text : 'buy coffee', key: '1' },
-    { text : 'create an app', key: '2' },
-    { text: 'play some game', key: '3' }
+    { text : 'buy coffee', description: 'go to the shop and buy some tasty coffee for myself :)', key: '1' },
+    { text : 'create an app', description: 'Create a todo app that Lesha will admire :>', key: '2' },
+    { text: 'play some game', description: 'play some new games in your steam library...', key: '3' }
   ]);
 
   const pressHandler = (key) => {
@@ -19,11 +18,11 @@ export default function App() {
     })
   }
 
-  const submitHandler = (text) => {
-    if (text.length > 1) {
+  const submitHandler = (text, description) => {
+    if (text.length > 1 &&  description.length != 0) {
       setTodos((prevTodos) => {
         return [
-          { text: text, key: Math.random().toString() },
+          { text: text, description: description, key: Math.random().toString() },
           ...prevTodos
         ];
       });
@@ -42,7 +41,6 @@ export default function App() {
       <View style={styles.container}>
         <Header />
         <View style={styles.content}>
-          <AddTodo submitHandler={submitHandler} />
           <View style={styles.list}>
             <FlatList
               data={todos}
@@ -51,6 +49,7 @@ export default function App() {
               )}
             />
           </View>
+          <AddTodo submitHandler={submitHandler} />
         </View>
       </View>
     </TouchableWithoutFeedback>
