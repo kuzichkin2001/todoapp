@@ -1,15 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard, DrawerLayoutAndroid, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Header from './components/header';
 import TodoItem from './components/todoitem';
 import AddTodo from './components/addtodo';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 export default function App() {
   const [todos, setTodos] = useState([
-    { text : 'buy coffee', key: '1' },
-    { text : 'create an app', key: '2' },
-    { text: 'play some game', key: '3' }
+    { text : 'buy coffee', description: 'go to the shop and buy some tasty coffee for myself :)', key: '1' },
+    { text : 'create an app', description: 'Create a todo app that Lesha will admire :>', key: '2' },
+    { text: 'play some game', description: 'play some new games in your steam library...', key: '3' }
   ]);
 
   const pressHandler = (key) => {
@@ -18,11 +20,11 @@ export default function App() {
     })
   }
 
-  const submitHandler = (text) => {
-    if (text.length > 1) {
+  const submitHandler = (text, description) => {
+    if (text.length > 1 &&  description.length != 0) {
       setTodos((prevTodos) => {
         return [
-          { text: text, key: Math.random().toString() },
+          { text: text, description: description, key: Math.random().toString() },
           ...prevTodos
         ];
       });
@@ -33,48 +35,76 @@ export default function App() {
     }
   }
 
-  const drawer = useRef(null);
-  const drawerPosition = 'left';
-  const navigationView = () => (
-      <View style={[styles.drawer, styles.navigationContainer]}>
-        <Text style={styles.drawerHeader}>PASHA AND ILIA APP</Text>
-        <TouchableHighlight style={styles.buttons} onPress = {() => drawer.current.closeDrawer()}><Text style={styles.text}>My Todos</Text></TouchableHighlight>
-        <TouchableHighlight style={styles.buttons} onPress = {() => drawer.current.closeDrawer()}><Text style={styles.text}>ToDos Done</Text></TouchableHighlight>
-        <TouchableHighlight style={styles.buttons} onPress = {() => drawer.current.closeDrawer()}><Text style={styles.text}>About Us</Text></TouchableHighlight>
-      </View>
-    );
+  const Drawer = createDrawerNavigator();
 
-  return (
-    <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss();
-      console.log('dismissed keyboard');
-    }}>
-      <DrawerLayoutAndroid
-        ref={drawer}
-        drawerWidth={300}
-        drawerPosition={drawerPosition}
-        renderNavigationView={navigationView}
-      >
-      <View style={styles.container}>
-        <Header drawer={drawer} />
-        <View style={styles.content}>
-          <AddTodo submitHandler={submitHandler} />
-          <View style={styles.list}>
-            <FlatList
-              data={todos}
-              renderItem={({ item }) => (
-                <TodoItem item={ item } pressHandler={pressHandler}/>
-              )}
-            />
+  function Feed({ navigation }) {
+    return (
+      <TouchableWithoutFeedback onPress={() => {
+        Keyboard.dismiss();
+        console.log('dismissed keyboard');
+      }}>
+        <View style={styles.container}>
+          <Header navigation={ navigation } />
+          <View style={styles.content}>
+            <View style={styles.list}>
+              <FlatList
+                data={todos}
+                renderItem={({ item }) => (
+                  <TodoItem item={ item } pressHandler={pressHandler}/>
+                )}
+              />
+            </View>
+            <AddTodo submitHandler={submitHandler} />
           </View>
         </View>
+      </TouchableWithoutFeedback>
+    );
+  }
+  
+  function Notifications({ navigation }) {
+    return (
+      <View style={styles.container}>
+        <Header navigation={ navigation } />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#211f1c' }}>
+        <Text style={{color: '#fff', fontSize: 16}}>Notifications Screen</Text>
       </View>
-      </DrawerLayoutAndroid>
-    </TouchableWithoutFeedback>
+      </View>
+    );
+  }
+
+  function AboutUs({ navigation }) {
+    return (
+      <View style={styles.container}>
+        <Header navigation={ navigation } />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#211f1c'}}>
+          <Text style={{fontSize: 16, color: '#fff'}}>This app was done by Pasha and Ilia</Text>
+        </View>
+      </View>
+    )
+  }
+  
+  
+function MyDrawer() {
+  return (
+    <Drawer.Navigator drawerStyle={{backgroundColor: '#211f1c'}} drawerContentOptions={{labelStyle: {color: '#fff'}, activeBackgroundColor: '#e00065'}}>
+      <Drawer.Screen name="Feed" component={Feed} />
+      <Drawer.Screen name="Notifications" component={Notifications} />
+      <Drawer.Screen name="About Us" component={AboutUs} />
+    </Drawer.Navigator>
+  );
+}
+
+  return (
+    <NavigationContainer>
+      <MyDrawer />
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
+  navi: {
+    backgroundColor: '#000'
+  },
   container: {
     flex: 1,
     backgroundColor: '#211f1c',

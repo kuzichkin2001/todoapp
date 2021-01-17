@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, DrawerLayoutAndroid, Button } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 
-export default function Header({drawer}) {
+export default function Header({ navigation }) {
 
     const image = { uri: "https://assets.stickpng.com/images/588a64e0d06f6719692a2d10.png" };
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity style={styles.button} onPress = {() => drawer.current.openDrawer()}><ImageBackground style={styles.image} source={image}></ImageBackground></TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress = {() => navigation.dispatch(DrawerActions.openDrawer())}><ImageBackground style={styles.image} source={image}></ImageBackground></TouchableOpacity>
             <Text style={styles.title}>My Todos</Text>
         </View>
     );
