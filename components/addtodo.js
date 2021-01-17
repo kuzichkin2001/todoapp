@@ -18,7 +18,7 @@ export default function AddTodo({ submitHandler }) {
     return (
         <View style={styles.addButton}>
             <Modal
-                animationType=''
+                animationType='fade'
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -43,7 +43,8 @@ export default function AddTodo({ submitHandler }) {
                                 setModalVisible(!modalVisible);
                             }} style={styles.submit}>
                                 <Text style={{ fontSize: 18, color: '#fff' }}>Cancel</Text>
-                            </TouchableHighlight><TouchableHighlight onPress={() => {
+                            </TouchableHighlight>
+                            <TouchableHighlight onPress={() => {
                                 if (text.length > 3 && description.length != 0)
                                 {
                                     console.log('okey');
