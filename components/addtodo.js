@@ -7,6 +7,7 @@ export default function AddTodo({ submitHandler }) {
     const [description, setDescription] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
+
     const titleChangeHandler = (val) => {
         setText(val);
     }
@@ -14,7 +15,6 @@ export default function AddTodo({ submitHandler }) {
     const descriptionChangeHandler = (val) => {
         setDescription(val);
     }
-
     return (
         <View style={styles.addButton}>
             <Modal
@@ -72,7 +72,7 @@ export default function AddTodo({ submitHandler }) {
         </View>
     );
 }
-
+ 
 const styles = StyleSheet.create({
     input: {
         width: 200,
