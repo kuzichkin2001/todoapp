@@ -1,20 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, Button, View, Modal, TouchableHighlight, Alert } from 'react-native';
- 
+
 export default function AddTodo({ submitHandler }) {
     const [text, setText] = useState('');
     const [description, setDescription] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
- 
+
+
     const titleChangeHandler = (val) => {
         setText(val);
     }
- 
+
     const descriptionChangeHandler = (val) => {
         setDescription(val);
     }
- 
     return (
         <View style={styles.addButton}>
             <Modal
